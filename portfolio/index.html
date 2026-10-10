@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your Name — Developer Portfolio and Resume</title>
+  <meta name="description" content="Portfolio and resume for Your Name, a developer. Projects, experience and skills, with structured data for search and AI answer engines.">
+  <link rel="canonical" href="https://example.com/">
+  <meta property="og:type" content="profile">
+  <meta property="og:title" content="Your Name — Developer Portfolio">
+  <meta property="og:description" content="Projects, experience and skills of Your Name.">
+  <meta property="og:url" content="https://example.com/">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://example.com/#person",
+    "name": "Your Name",
+    "url": "https://example.com/",
+    "jobTitle": "Full-stack developer",
+    "knowsAbout": ["JavaScript", "React", "Node.js", "SQLite", "SEO"],
+    "sameAs": ["https://www.linkedin.com/in/your-handle"]
+  }
+  </script>
+  <style>
+    :root { --bg:#fff; --ink:#0f172a; --muted:#475569; --line:#e2e8f0; --brand:#2563eb; color-scheme: light; }
+    [data-theme="dark"] { --bg:#0b0f17; --ink:#f1f5f9; --muted:#94a3b8; --line:#243047; --brand:#60a5fa; color-scheme: dark; }
+    body { margin:0; font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; background:var(--bg); color:var(--ink); }
+    .page { max-width: 780px; margin: 0 auto; padding: 40px 20px; }
+    header { border-bottom: 3px solid var(--brand); padding-bottom: 14px; display:flex; justify-content:space-between; align-items:flex-end; gap:12px; flex-wrap:wrap; }
+    h1 { margin:0; font-size: 2rem; }
+    .role { color: var(--brand); font-weight: 700; margin: 2px 0 0; }
+    h2 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: .08em; color: var(--brand); border-bottom: 1px solid var(--line); padding-bottom: 4px; margin-top: 28px; }
+    .job, .project { margin: 14px 0; }
+    .job h3, .project h3 { margin: 0; font-size: 1rem; }
+    .meta { color: var(--muted); font-size: .9rem; margin: 2px 0 6px; }
+    ul { padding-inline-start: 20px; margin: 4px 0 0; }
+    .chips span { display:inline-block; background: color-mix(in srgb, var(--brand) 10%, transparent); color: var(--brand); padding: 3px 10px; border-radius: 6px; margin: 0 6px 6px 0; font-size: .88rem; font-weight:600; }
+    a { color: var(--brand); }
+    .toggle { float: inline-end; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+    @media print { .toggle { display:none; } body { color:#000; background:#fff; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <button class="toggle" id="theme" aria-label="Toggle theme">Dark</button>
+    <header>
+      <div>
+        <h1>Your Name</h1>
+        <p class="role">Full-stack developer and automation engineer</p>
+      </div>
+      <p class="meta">City · you@example.com · <a href="https://www.linkedin.com/in/your-handle">LinkedIn</a></p>
+    </header>
+
+    <h2>Summary</h2>
+    <p>Developer with a focus on shipping production web apps, payments integration and AI-assisted automation. Replace this paragraph with two or three factual sentences about the work you do.</p>
+
+    <h2>Experience</h2>
+    <div class="job">
+      <h3>Freelance developer</h3>
+      <p class="meta">Month Year – Present · Remote</p>
+      <ul>
+        <li>Delivered a marketplace with web, PWA and Android builds from one codebase.</li>
+        <li>Built automation bots that remove repetitive manual work for clients.</li>
+      </ul>
+    </div>
+
+    <h2>Projects</h2>
+    <div class="project">
+      <h3>Project name</h3>
+      <p class="meta">Stack: React · Node.js · SQLite</p>
+      <p>One or two sentences on what it does and the measurable result.</p>
+      <a href="https://example.com">View project</a>
+    </div>
+
+    <h2>Skills</h2>
+    <div class="chips"><span>JavaScript</span><span>React</span><span>Node.js</span><span>SQLite</span><span>SEO</span><span>Telegram Bots</span></div>
+  </div>
+
+  <script>
+    (function () {
+      var r = document.documentElement, b = document.getElementById('theme');
+      function label() { b.textContent = r.dataset.theme === 'dark' ? 'Light' : 'Dark'; }
+      b.addEventListener('click', function () { r.dataset.theme = r.dataset.theme === 'dark' ? 'light' : 'dark'; label(); });
+      label();
+    })();
+  </script>
+</body>
+</html>
