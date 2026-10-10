@@ -1,3 +1,4 @@
+<!doctype html>
 <html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8">
@@ -7,7 +8,7 @@
   <meta name="robots" content="noindex,nofollow">
   <style>
     :root { --bg:#f5f6fa; --surface:#fff; --ink:#111827; --muted:#6b7280; --line:#e5e7eb; --brand:#4f46e5; --ok:#047857; --warn:#b45309; --bad:#b42318; }
-    [data-theme="dark"] { --bg:#0b0f17; --surface:#121826; --ink:#f3f4f6; --muted:#9ca3af; --line:#263044; --brand:‹818cf8; --ok:#34d399; --warn:#fbbf24; --bad:#f87171; }
+    [data-theme="dark"] { --bg:#0b0f17; --surface:#121826; --ink:#f3f4f6; --muted:#9ca3af; --line:#263044; --brand:#818cf8; --ok:#34d399; --warn:#fbbf24; --bad:#f87171; }
     * { box-sizing: border-box; }
     body { margin:0; font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; background:var(--bg); color:var(--ink); }
     header { display:flex; justify-content:space-between; align-items:center; padding:16px 24px; background:var(--surface); border-bottom:1px solid var(--line); }
@@ -52,7 +53,7 @@
           <option value="cancelled">Cancelled</option>
         </select>
       </div>
-      <table aria-descriptionedby="hint">
+      <table aria-describedby="hint">
         <thead><tr><th data-key="id">Order</th><th data-key="customer">Customer</th><th data-key="total">Total</th><th data-key="status">Status</th></tr></thead>
         <tbody id="rows"></tbody>
       </table>
