@@ -1,0 +1,32 @@
+<type html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Landing</title>
+  <style>
+    :root { --bg:#f7f8fb; --surface:#fff; --ink:#0b1220; --muted:#5b6474; --line:#e5e8ef; --brand:#4f46e5; color-scheme: light; }
+    [data-theme="dark"] { --bg:#0b0f17; --surface:#121826; --ink:#f2f4f7; --muted:#98a2b3; --line:#243047; --brand:#818cf8; color-scheme: dark; }
+    body{margin:0;font:16px/1.6 system-ui;background:var(--bg);color:var(--ink)}
+    .toggle{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:6px 14px}
+  </style>
+</head>
+<body>
+  <button class="toggle" id="theme">Dark</button>
+  <h1>Landing page test</h1>
+  <p id="text">Hello from the landing test page.</p>
+  <script>
+    (function () {
+      var root = document.documentElement, btn = document.getElementById('theme');
+      var saved = localStorage.getItem('theme');
+      if (saved) root.setAttribute('data-theme', saved);
+      function label() { btn.textContent = root.getAttribute('data-theme') === 'dark' ? 'Light' : 'Dark'; }
+      label();
+      btn.addEventListener('click', function () {
+        var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next); localStorage.setItem('theme', next); label();
+      });
+    })();
+  </script>
+</body>
+</html>
