@@ -1,1 +1,113 @@
-PLACEHOLDER
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Dashboard Kit</title>
+  <meta name="description" content="A dependency-free admin dashboard with KPI cards, a sortable orders table, a status filter and light/dark themes.">
+  <meta name="robots" content="noindex,nofollow">
+  <style>
+    :root { --bg:#f5f6fa; --surface:#fff; --ink:#111827; --muted:#6b7280; --line:#e5e7eb; --brand:#4f46e5; --ok:#047857; --warn:#b45309; --bad:#b42318; }
+    [data-theme="dark"] { --bg:#0b0f17; --surface:#121826; --ink:#f3f4f6; --muted:#9ca3af; --line:#263044; --brand:‹818cf8; --ok:#34d399; --warn:#fbbf24; --bad:#f87171; }
+    * { box-sizing: border-box; }
+    body { margin:0; font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; background:var(--bg); color:var(--ink); }
+    header { display:flex; justify-content:space-between; align-items:center; padding:16px 24px; background:var(--surface); border-bottom:1px solid var(--line); }
+    main { padding: 24px; max-width: 1200px; margin: 0 auto; }
+    .kpis { display:grid; grid-template-columns: repeat(auto-fit, minmax(190px,1fr)); gap:14px; margin-bottom:20px; }
+    .kpi { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px; }
+    .kpi .label { color:var(--muted); font-size:.85rem; }
+    .kpi .value { font-size:1.6rem; font-weight:800; margin-top:4px; }
+    .panel { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px; }
+    .toolbar { display:flex; gap:10px; align-items:center; margin-bottom:12px; flex-wrap:wrap; }
+    input, select, button { font: inherit; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--surface); color:var(--ink); }
+    button { cursor:pointer; }
+    table { width:100%; border-collapse:collapse; }
+    th, td { text-align:start; padding:10px 8px; border-bottom:1px solid var(--line); }
+    th { color:var(--muted); font-weight:600; cursor:pointer; user-select:none; }
+    .pill { padding:2px 10px; border-radius:999px; font-size:.82rem; font-weight:600; }
+    .paid { background:#dcfce7; color:#166534; } .pending { background:#fef3c7; color:#92400e; } .cancelled { background:#fee2e2; color:#991b1b; }
+    [data-theme="dark"] .paid { background:#053b2c; color:#6ee7b7; } [data-theme="dark"] .pending { background:#3b2c06; color:#fcd34d; } [data-theme="dark"] .cancelled { background:#3c1414; color:#fca5a5; }
+    .empty { color:var(--muted); text-align:center; padding:24px; }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>Admin Dashboard</strong>
+    <button id="theme">Toggle theme</button>
+  </header>
+  <main>
+    <section class="kpis" aria-label="Key metrics">
+      <div class="kpi"><div class="label">Orders today</div><div class="value" id="kpi-orders">0</div></div>
+      <div class="kpi"><div class="label">Revenue (Toman)</div><div class="value" id="kpi-revenue">0</div></div>
+      <div class="kpi"><div class="label">Awaiting payment</div><div class="value" id="kpi-pending">0</div></div>
+      <div class="kpi"><div class="label">Average order</div><div class="value" id="kpi-avg">0</div></div>
+    </section>
+
+    <section class="panel">
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="Search customer or order #" aria-label="Search orders">
+        <select id="status" aria-label="Filter by status">
+          <option value="">All statuses</option>
+          <option value="paid">Paid</option>
+          <option value="pending">Pending</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+      <table aria-descriptionedby="hint">
+        <thead><tr><th data-key="id">Order</th><th data-key="customer">Customer</th><th data-key="total">Total</th><th data-key="status">Status</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <p id="hint" class="empty" style="display:none">No orders match.</p>
+    </section>
+  </main>
+
+  <script>
+    // Sample data: replace with a fetch() to your API.
+    const ORDERS = [
+      { id: 1041, customer: 'Sara K.', total: 1490000, status: 'paid', day: 0 },
+      { id: 1040, customer: 'Ali M.', total: 790000, status: 'pending', day: 0 },
+      { id: 1039, customer: 'Reza T.', total: 2350000, status: 'paid', day: 1 },
+      { id: 1038, customer: 'Nima H.', total: 520000, status: 'cancelled', day: 2 },
+      { id: 1037, customer: 'Mina A.', total: 980000, status: 'paid', day: 3 },
+    ];
+    const fmt = (n) => new Intl.NumberFormat('en-US').format(n);
+    let sortKey = 'id', sortDir = -1;
+
+    function renderKpis() {
+      const today = ORDERS.filter(o => o.day === 0);
+      const paid = ORDERS.filter(o => o.status === 'paid');
+      const revenue = paid.reduce((s, o) => s + o.total, 0);
+      document.getElementById('kpi-orders').textContent = fmt(today.length);
+      document.getElementById('kpi-revenue').textContent = fmt(revenue);
+      document.getElementById('kpi-pending').textContent = fmt(ORDERS.filter(o => o.status === 'pending').length);
+      document.getElementById('kpi-avg').textContent = fmt(paid.length ? Math.round(revenue / paid.length) : 0);
+    }
+
+    function renderRows() {
+      const q = document.getElementById('search').value.trim().toLowerCase();
+      const st = document.getElementById('status').value;
+      const rows = ORDERS
+        .filter(o => (!st || o.status === st) && (!q || o.customer.toLowerCase().includes(q) || String(o.id).includes(q)))
+        .sort((a, b) => (a[sortKey] > b[sortKey] ? 1 : -1) * sortDir);
+      const tbody = document.getElementById('rows');
+      tbody.innerHTML = rows.map(o => `<tr><td>#${o.id}</td><td>${o.customer}</td><td>${fmt(o.total)}</td><td><span class="pill ${o.status}">${o.status}</span></td></tr>`).join('');
+      document.getElementById('hint').style.display = rows.length ? 'none' : 'block';
+    }
+
+    document.querySelectorAll('th[data-key]').forEach(th => th.addEventListener('click', () => {
+      const k = th.dataset.key;
+      sortDir = sortKey === k ? -sortDir : 1;
+      sortKey = k;
+      renderRows();
+    }));
+    document.getElementById('search').addEventListener('input', renderRows);
+    document.getElementById('status').addEventListener('change', renderRows);
+    document.getElementById('theme').addEventListener('click', () => {
+      const r = document.documentElement;
+      r.dataset.theme = r.dataset.theme === 'dark' ? 'light' : 'dark';
+    });
+
+    renderKpis();
+    renderRows();
+  </script>
+</body>
+</html>
